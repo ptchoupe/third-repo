@@ -1,0 +1,41 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby : 
+VAGRANTFILE_API_VERSION = "2" 
+Vagrant.configure(VAGRANTFILE_API_VERSION) do|config|
+  config.vm.boot_timeout = 600 
+  config.ssh.insert_key = false 
+  config.vm.provider :virtualbox do|vb| 
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    vb.customize ["modifyvm", :id, "--uart1", "0x3F8", "4"]
+    vb.customize ["modifyvm", :id, "--uartmode1", "file", File::NULL]
+
+    vb.customize ["modifyvm", :id, "--nestedpaging", "off"]
+    vb.customize ["modifyvm", :id, "--cpus", 2]
+    vb.customize ["modifyvm", :id, "--paravirtprovider", "hyperv"]
+
+  end 
+
+#Web Server
+  config.vm.define "website-server" do|web|
+    web.vm.hostname = "website-server" 
+    web.vm.box = "bento/ubuntu-18.04" 
+    web.vm.network "private_network", ip: "192.168.56.154" 
+    
+  end
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
